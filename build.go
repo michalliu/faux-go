@@ -349,7 +349,7 @@ func init() {
 	var err error
 	archChar, err = build.ArchChar(goarch)
 	if err != nil {
-		fatalf("%s", err)
+		//fatalf("%s", err)
 	}
 }
 
