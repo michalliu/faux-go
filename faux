@@ -1,0 +1,5 @@
+#!/bin/ash
+cmd=$1
+shift
+/bin/go $cmd --gccgoflags "-static-libgo" $@
+#go build -compiler gccgo --gccgoflags "-static-libgo" ./code-cgo.go
