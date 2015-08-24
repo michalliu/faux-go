@@ -75,6 +75,8 @@ The build flags are shared by the build, install, run, and test commands:
 		name of compiler to use, as in runtime.Compiler (gccgo or gc).
 	-gccgoflags 'arg list'
 		arguments to pass on each gccgo compiler/linker invocation.
+	-cgoflags 'arg list'
+		arguments to pass on each cgo invocation.
 	-gcflags 'arg list'
 		arguments to pass on each 5g, 6g, or 8g compiler invocation.
 	-installsuffix suffix
@@ -122,6 +124,7 @@ var buildGcflags []string    // -gcflags flag
 var buildCcflags []string    // -ccflags flag
 var buildLdflags []string    // -ldflags flag
 var buildGccgoflags []string // -gccgoflags flag
+var buildCgoflags []string   // -cgoflags flag
 var buildRace bool           // -race flag
 
 var buildContext = build.Default
@@ -172,6 +175,7 @@ func addBuildFlags(cmd *Command) {
 	cmd.Flag.Var((*stringsFlag)(&buildCcflags), "ccflags", "")
 	cmd.Flag.Var((*stringsFlag)(&buildLdflags), "ldflags", "")
 	cmd.Flag.Var((*stringsFlag)(&buildGccgoflags), "gccgoflags", "")
+	cmd.Flag.Var((*stringsFlag)(&buildCgoflags), "cgoflags", "")
 	cmd.Flag.Var((*stringsFlag)(&buildContext.BuildTags), "tags", "")
 	cmd.Flag.Var(buildCompiler{}, "compiler", "")
 	cmd.Flag.BoolVar(&buildRace, "race", false, "")
@@ -1974,7 +1978,7 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, gccfiles []string, gxxfile
 	}
 	defunC := obj + "_cgo_defun.c"
 
-	cgoflags := []string{}
+	cgoflags := buildCgoflags
 	// TODO: make cgo not depend on $GOARCH?
 
 	objExt := archChar
