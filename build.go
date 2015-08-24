@@ -1974,7 +1974,7 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, gccfiles []string, gxxfile
 	}
 	defunC := obj + "_cgo_defun.c"
 
-	cgoflags := []string{"-debug-gcc=true"}
+	cgoflags := []string{}
 	// TODO: make cgo not depend on $GOARCH?
 
 	objExt := archChar
